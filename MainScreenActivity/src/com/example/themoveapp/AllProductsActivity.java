@@ -35,8 +35,10 @@ public class AllProductsActivity extends ListActivity {
     ArrayList<HashMap<String, String>> productsList;
  
     // url to get all products list
+    //private static String url_all_products = "http://api.androidhive.info/android_connect/get_all_products.php";
     private static String url_all_products = "http://api.androidhive.info/android_connect/get_all_products.php";
  
+    
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODUCTS = "products";

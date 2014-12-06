@@ -302,6 +302,8 @@ public class MainScreenActivity extends Activity implements
             mLatLng.setText(LocationUtils.getLatLng(this, currentLocation));
             currentLocationStr = LocationUtils.getLatLng(this, currentLocation);
         }
+        
+        getAddress(v);
     }
     
     public static String getLocationStr() {
