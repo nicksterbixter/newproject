@@ -57,6 +57,7 @@ public class JSONParser {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
+                System.err.println("***" + url);
                 HttpGet httpGet = new HttpGet(url);
  
                 HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -79,6 +80,7 @@ public class JSONParser {
             String line = null;
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
+                System.err.println("***"+sb);
             }
             is.close();
             json = sb.toString();
@@ -90,7 +92,7 @@ public class JSONParser {
         try {
             jObj = new JSONObject(json);
         } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            Log.e("JSON Parser", "Error parsing data " + json + e.toString());
         }
  
         // return JSON String

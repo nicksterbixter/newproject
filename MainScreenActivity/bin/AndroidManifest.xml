@@ -24,14 +24,14 @@
  
         <!-- All Product Activity -->
         <activity
-            android:name=".AllProductsActivity"
-            android:label="All Products" >
+            android:name=".ListGroupsActivity"
+            android:label="List Groups" >
         </activity>
  
         <!-- Add Product Activity -->
         <activity
-            android:name=".NewProductActivity"
-            android:label="Add New Product" >
+            android:name=".NewGroupActivity"
+            android:label="Add New Group" >
         </activity>
         
         <!-- Edit Product Activity -->
@@ -39,6 +39,18 @@
             android:name=".EditProductActivity"
             android:label="Edit Product" >
         </activity>
+        
+        
+        <activity
+            android:name=".ListLocationsActivity"
+            android:label="List Locations" >
+        </activity>
+        
+        <activity
+            android:name=".NewLocationActivity"
+            android:label="Add New Location" >
+        </activity>
+       
          
         <service
         android:name="com.example.android.location.ReceiveUpdatesIntentService"

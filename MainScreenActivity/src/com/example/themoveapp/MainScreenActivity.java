@@ -51,6 +51,7 @@ public class MainScreenActivity extends Activity implements
  
     Button btnViewProducts;
     Button btnNewProduct;
+    Button btnNewLocation;
     Button btnViewLocation;
     
     // A request to connect to Location Services
@@ -130,6 +131,7 @@ public class MainScreenActivity extends Activity implements
         // Buttons
         btnViewProducts = (Button) findViewById(R.id.btnViewProducts);
         btnNewProduct = (Button) findViewById(R.id.btnCreateProduct);
+        btnNewLocation = (Button) findViewById(R.id.btnCreateLocation);
  
         // view products click event
         btnViewProducts.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +139,7 @@ public class MainScreenActivity extends Activity implements
             @Override
             public void onClick(View view) {
                 // Launching All products Activity
-                Intent i = new Intent(getApplicationContext(), AllProductsActivity.class);
+                Intent i = new Intent(getApplicationContext(), ListGroupsActivity.class);
                 startActivity(i);
                  
             }
@@ -149,9 +151,21 @@ public class MainScreenActivity extends Activity implements
             @Override
             public void onClick(View view) {
                 // Launching create new product activity
-                Intent i = new Intent(getApplicationContext(), NewProductActivity.class);
+                Intent i = new Intent(getApplicationContext(), NewGroupActivity.class);
                 startActivity(i);
  
+            }
+        });
+        
+        // view products click event
+        btnNewLocation.setOnClickListener(new View.OnClickListener() {
+ 
+            @Override
+            public void onClick(View view) {
+                // Launching All products Activity
+                Intent i = new Intent(getApplicationContext(), NewLocationActivity.class);
+                startActivity(i);
+                 
             }
         });
         

@@ -38,6 +38,12 @@
     <Button android:id="@+id/btnCreateProduct"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:text="Add New Group"
+        android:layout_marginTop="25dip"/>
+    
+    <Button android:id="@+id/btnCreateLocation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:text="Add New Location"
         android:layout_marginTop="25dip"/>
    <!--  
