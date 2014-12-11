@@ -7,8 +7,10 @@ package com.example.themoveapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
  
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +20,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,21 +38,24 @@ public class ListLocationsActivity extends ListActivity {
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
  
-    ArrayList<HashMap<String, String>> productsList;
+    ArrayList<HashMap<String, String>> locationsList;
  
     // url to get all products list
     //private static String url_all_products = "http://api.androidhive.info/android_connect/get_all_products.php";
-    private static String url_all_products ="http://54.148.17.12/get_all_locations.php";
+    private static String url_all_products ="http://54.148.17.126/get_group_locations.php";
  
+    
     
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_PRODUCTS = "products";
+    private static final String TAG_GROUPS = "groups";
     private static final String TAG_PID = "pid";
     private static final String TAG_NAME = "name";
+    private static final String TAG_LOCATION = "location";
+    //private static final String TAG_COORDINATES = "coordinates";
  
     // products JSONArray
-    JSONArray products = null;
+    JSONArray locations = null;
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +63,7 @@ public class ListLocationsActivity extends ListActivity {
         setContentView(R.layout.all_groups);
  
         // Hashmap for ListView
-        productsList = new ArrayList<HashMap<String, String>>();
+        locationsList = new ArrayList<HashMap<String, String>>();
  
         // Loading products in Background Thread
         new LoadAllProducts().execute();
@@ -129,8 +135,20 @@ public class ListLocationsActivity extends ListActivity {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            
+            String username = Secure.getString(getBaseContext().getContentResolver(), Secure.ANDROID_ID);
+            
+            Intent in = getIntent();
+            String group = in.getStringExtra(TAG_NAME);
+            
+            System.out.println(group);
+            params.add(new BasicNameValuePair("name", group));
+            params.add(new BasicNameValuePair("username", username));
+         
+            
             // getting JSON string from URL
             JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
+            
  
             // Check your log cat for JSON reponse
             Log.d("All Products: ", json.toString());
@@ -142,25 +160,27 @@ public class ListLocationsActivity extends ListActivity {
                 if (success == 1) {
                     // products found
                     // Getting Array of Products
-                    products = json.getJSONArray(TAG_PRODUCTS);
+                    locations = json.getJSONArray(TAG_GROUPS);
  
                     // looping through All Products
-                    for (int i = 0; i < products.length(); i++) {
-                        JSONObject c = products.getJSONObject(i);
+                    for (int i = 0; i < locations.length(); i++) {
+                        JSONObject c = locations.getJSONObject(i);
  
+                        int randNum = new Random().nextInt(5)+1;
+                        
                         // Storing each json item in variable
-                        String id = c.getString(TAG_PID);
-                        String name = c.getString(TAG_NAME);
+                        String id = String.valueOf(i);   //c.getString(TAG_PID);
+                        String location = c.getString(TAG_LOCATION) + ": " + randNum + " users present";
  
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
  
                         // adding each child node to HashMap key => value
                         map.put(TAG_PID, id);
-                        map.put(TAG_NAME, name);
+                        map.put(TAG_LOCATION, location);
  
                         // adding HashList to ArrayList
-                        productsList.add(map);
+                        locationsList.add(map);
                     }
                 } else {
                     // no products found
@@ -191,9 +211,9 @@ public class ListLocationsActivity extends ListActivity {
                      * Updating parsed JSON data into ListView
                      * */
                     ListAdapter adapter = new SimpleAdapter(
-                            ListLocationsActivity.this, productsList,
+                            ListLocationsActivity.this, locationsList,
                             R.layout.list_item, new String[] { TAG_PID,
-                                    TAG_NAME},
+                                    TAG_LOCATION},
                             new int[] { R.id.pid, R.id.name });
                     // updating listview
                     setListAdapter(adapter);

@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +30,7 @@ public class NewLocationActivity extends Activity {
     //EditText inputDesc;
  
     // url to create new product
-    private static String url_create_product ="http://54.148.17.126/create_location.php";
+    private static String url_create_product ="http://54.148.17.126/add_location.php";
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -81,13 +82,16 @@ public class NewLocationActivity extends Activity {
          * Creating product
          * */
         protected String doInBackground(String... args) {
-            String name = inputName.getText().toString();
+            String location = inputName.getText().toString();
             //String price = "42"; //inputPrice.getText().toString();
             //String description = "wha"; //inputDesc.getText().toString();
+            String username = Secure.getString(getBaseContext().getContentResolver(), Secure.ANDROID_ID);
  
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("location", name));
+            params.add(new BasicNameValuePair("username", username));
+            params.add(new BasicNameValuePair("location", location));
+            
             //params.add(new BasicNameValuePair("price", price));
             //params.add(new BasicNameValuePair("description", description));
             params.add(new BasicNameValuePair("coordinates", MainScreenActivity.getLocationStr()));
